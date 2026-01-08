@@ -10,58 +10,52 @@
 \usepackage{csquotes}
 \usepackage{todonotes}
 \usepackage{subfigure}
+\usepackage{csquotes}
+\usepackage{lipsum}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \usepackage{hyperref}
 \usepackage[margin=1.75cm]{geometry}
-\usepackage[hpos=0.42\paperwidth,vpos=0.97\paperheight,angle=0,scale=0.8]{draftwatermark}
+\usepackage[hpos=0.17\paperwidth,vpos=0.97\paperheight,angle=0,scale=0.3]{draftwatermark}
 \SetWatermarkText{Preprint}
 \SetWatermarkLightness{0.5}
-\SetWatermarkText{Preliminary draft (with errors) of work in progress}
+\SetWatermarkText{Open Access License: CC-BY-SA 4.0}
 
 \newtheorem{definition}{Definition}[section]
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{example}{Example}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
 
+
 \newcommand{\longhookrightarrow}{\lhook\joinrel\longrightarrow}
+
+\DeclareMathOperator{\EE}{\mathbb{E}}
 
 
 \title{A Mathematical Theory of Payment Channel Networks}
 
 
-\author{Rene Pickhardt\thanks{Due to personal circumstances related to my mental health I have not been able to receive a PhD - despite being a researcher since 2011. If you can give someone a PhD and think this work and my prior work about reliability in payment channel networks since 2018 reaches the merits of a PhD, then please feel free to get in contact with me. Thank you!}}
+\author{Rene Pickhardt\thanks{Due to personal circumstances related to my mental health I have not been able to receive a PhD - despite being a researcher since 2011. If you can give someone a PhD and think this work and my prior work about reliability in payment channel networks since 2018 reaches the merits of a PhD, then please feel free to get in contact with me. Thank you!} (r.pickhardt@gmail.com)}
 \begin{document} 
 \maketitle
 
- 
 \begin{abstract}
+We introduce a geometric theory of payment channel networks that centers the polytope $W_G$ of feasible wealth distributions, with liquidity states $L_G$ naturally projecting onto $W_G$ via strict circulations. A payment is feasible iff the post-transfer wealth remains in $W_G$. As every infeasible payment needs at least one on-chain transaction to change the topology of the network this yields a simple throughput law linking off-chain scale to feasibility: If $\zeta$ is on-chain settlement bandwidth and $\rho$ the expected fraction of infeasible payments, the sustainable off-chain bandwidth satisfies
+\[
+\mathcal{S}=\frac{\zeta}{\rho}
+\]
 
-In this study, we explore the geometry of payment channel networks, such as the Lightning Network, which consist of \(n\) peers maintaining \(m\) payment channels. We demonstrate that the space \(L_G\) of liquidity states can be modeled as an \(m\)-dimensional hyperbox in \(\mathbb{Z}^m\). By considering the transfer of wealth, we derive the \(n-1\)-dimensional bounded convex polytope \(W_G\) representing feasible distributions of \(C\) coins among the peers. This polytope is a subset of the hyperplane defined by \(w_1 + \cdots + w_n = C\).
+We demonstrate for every $S\subset V$, the total wealth $\omega(S)$ of $S$ must lie in an interval whose width equals the cut capacity $C(\delta(S))$. This is used to quantify how multi-party channels (aka coinpools / channel factories) expand $W_G$: Modeling a $k$-party channel as a $k$-uniform hyperedge strictly widens every cut in expectation, so $W_G$ grows monotonically in $k$. In particular, a single node’s expected accessible wealth scales linearly with $k/n$.
 
-We prove that \(W_G\) is the quotient space of \(L_G\) when states resulting from circular self-payments are identified. Given that circular self-payments do not alter wealth distribution (neglecting routing fees), we study the quotient space \(L_G/\sim_\pi\), where \(\sim_\pi\) is the equivalence relation from these payments. We explicitly provide the isomorphism \(W_G \cong L_G/\sim_\pi\).
+Separately, we analyze depletion: Under linear (asymmetric) fees, cost-minimizing flow within a wealth fiber pushes cycles to the boundary, generically depleting channels except for a residual spanning forest. The theory suggests three mitigation levers: (i) \textbf{symmetric fees} per direction (simple but likely unpopular) (ii) \textbf{convex/tiered fees} (local flow control but at odds with source routing without broadcasting realtime liquidity information), and (iii) \textbf{coordinated replenishment} (choose an optimal circulation within a fiber that is closest to the wishes of the participants).
 
-Using geometric arguments like the concentration of measure, we predict phenomena such as channel depletion and infeasible payments. These issues, often attributed to suboptimal routing and liquidity management, are shown to be inevitable due to the network’s geometric properties and the lack of credit between peers. Notably, the rate of feasible payments declines exponentially as the network size increases.
-
-Finally, through Monte Carlo simulations and random walks, we present empirical evidence that \(k\)-party payment channel networks can achieve higher reliability and better service levels than two-party networks. The average access to liquidity for participants in \(k\)-party networks increases linearly with \(k\), with a slope of \(\frac{C}{n}\).
-%
-%  We study the geometry of payment channel networks (like the Lightning Network) of $n$ peers that maintain $m$ payment channels.
-%  In particular we show that the space $S$ of channel states can be seen as an $m$-dimensional hyperbox in $\mathbb{Z}^m$.
-%  Since payments are related to a transfer of wealth we derive the $n-1$ dimensional bounded convex polytope $W$ of feasible wealth distributions of $C$ coins between the peers as a bounded convex subpolytope of the hyperplane defined by $w_1+\cdots w_n = C$.
-
-%  We proof that $W$ is the quotient space of $S$ if states that emerge from circular self payments are divided out. 
-  %Observing that circular self payments do not change the wealth distribution (if routing fees are neglected) we study the quotiont space $S/\sim$ where $\sim$ is the equivalence relation that arises from circular self payments.
-%  We explicitely provide the isomorphism $W \cong S/\sim$.
-
-%  Utilizing solely geometric arguments we can predict both channel depletion as well as the probability for payments to be infeasible.
-%  Both are phenomenona that are observed on the Lightning Network and often believed to occure because routing and liquidity mangement is not yet optimally conducted by its peers.
-%  In stark contrast to community belief our research indicates that both channel depletion and infeasible payments are inevatable due to the geometry of Payment Channel Networks that arises from the network topology as well as the fact that credit between peers is not allowed on payment channel networks.
-%  In particular the rate of feasible payments declines exponentially with the size of the network.
-  
-%  Finally, with the help of Monte Carlo Simulations and Random walks we provide emperical evidence that the Geometry of $k$-party payment channels networks can lead to higher reliability and better servic% level objectives than the heavily constraint two-party payment channel networks since the average access to liquidity of the participants grows linear in $k$ with a slope of  $\frac{C}{n}$ . 
+The theory in this paper explains why two-party channel networks will struggle to scale off-chain payment bandwidth and why multi-party primitives are structurally more capital-efficient and yield higher expected payment bandwidth. We furthermore show how subtle protocool choices like the structure of the fee function or pricing and coordination keep operation inside the feasible region, improving reliability of feasible payments.
 \end{abstract}
 
+
+ 
 %% \section{Introduction}
 %% Supporting only about $7$ transactions per second and requiring users to wait on average several minutes for transactions to be confirmed by the network are two major limitations of the Bitcoin protocol.
 %% The Lightning Network as a second layer Protocol was created to address these two issues.
@@ -684,6 +678,7 @@ Finding a solution for the system of linear equations over integers in a bounded
 
 
 \subsubsection{A Remark on Credit in Payment Channel Networks}
+\label{sec:credit}
 The previous geometric example illustrates that the system of linear equations that come from conservation of liquidity and the network topology always has at least one solution over $\mathbb{Z}^{2\cdot m}$.
 However if the intersection of the solution space \(\sigma(G,\omega) \cap H_G\) is empty this means that all elements of $\sigma(G,\omega)$ have at least once component that is negative. 
 This shows that some wealth distributions are infeasible on payment channel networks because the liquidity of the peers in the channel has to be always positive.
@@ -780,6 +775,7 @@ We emphasize that infeasible payment requests require at least one on-chain tran
 This transaction can either change the wealth distribution and state of the payment channel network via an on-chain/off-chain swapping service or alter the network topology by opening and closing channels or through splicing.  
 If \( \zeta \) is the number of possible on-chain transactions per second, we can derive the maximum bandwidth of supported Lightning Network payments as:  
 \begin{equation}
+  \label{eq:feasabilityRate}
 \text{supported payments per second} = \mathcal{S} = \frac{\zeta}{\rho}
 \end{equation}
 
@@ -801,6 +797,402 @@ The figure also demonstrates what users of payment channel networks have experie
 Such networks are mainly capable to scale the bandwidth of small amount payments.
 There seems a small tradeoff between higher bandwidth but smaller supported maximum sendable amounts for networks with equally sized channels.
 We will see later in this document how multiparty channel networks values of \( r(G) \) that are close to $1$.
+
+
+\section{Lowering Expected Rate of Infeasible Payments via Multi Party Channels}
+\label{sec:mpc-cuts}
+We have seen in formular \ref{eq:feasabilityRate} that the supported payments per second in off-channel networks is proportional to the supported number of on-chain transactions multiplied with the inverse rate of expected infeasible payments. In particular we have seen annectotely that for two party channel networks the expected rate of infeasible payments is rather large. In the following we present an argument of how increasing the party size will allow more feasible wealth distributions and thus lower the expected rate of infeasible payments.% which is the only way to increase the supported bandwidth of feasible payments in an off-chain network without changing the on chain throughput. 
+
+In order to do so we formalize the capital-efficiency advantage of $k$-party channels (sometimes refered to as coinpools or multiparty channels) over $2$-party channels.
+The key observation is that for any node subset $S\subset V$, the maximal total wealth of $S$ must lie in an interval whose \emph{width equals the cut capacity} across $S$.
+We start with the special case of $2$-party channels. Then we replace those $2$-party channels by $k$-party channels, which strictly increases these widths and thereby enlarges $W_G$. Obviously if the polytope of feasible wealth distributions increases more payments become feasible even if the on chain throughput is not changed.
+
+\subsection{Cut intervals: A Proxy for the Number of Feasible Wealth Distributions}
+\label{subsec:cut-intervals}
+
+For $S\subset V$, let $E[S]:=\{\{u,v\}\in E:\ u,v\in S\}$ be internal edges and
+$\delta(S):=\{\{u,v\}\in E:\ u\in S,\ v\notin S\}$ be crossing edges. We define the cut capacity
+$C(\delta(S))$ as $C:=\sum_{e\in\delta(S)} c_e$.
+
+\begin{lemma}
+\label{lem:cut-interval}
+For every $\lambda\in L_G$ with $\omega(v) = \sum_{e\in E,v\in e}\lambda(e,v)$ and every nonempty proper $S\subset V$,
+\begin{equation}
+\label{eq:cut-interval}
+\sum_{e\in E[S]} c_e \;\;\le\;\; \sum_{v\in S}\omega(v) \;\;\le\;\; \sum_{e\in E[S]} c_e \;+\; \sum_{e\in \delta(S)} c_e.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Compute
+\begin{equation}
+  \begin{split}
+\sum_{v\in S}\omega(v) & =\sum_{v\in S}\sum_{v\in e}\lambda(e,v) \\
+& =\underbrace{\sum_{e=(u,v)\in E[S]}\big(\lambda(e,u)+\lambda(e,v)\big)}_{=\sum_{e\in E[S]}c_e} \\
+& +
+\;\sum_{e\in\delta(S),u\in e\cap S}\lambda\big(e,u)
+\end{split}
+  \end{equation}
+The last sum is between $0$ and $\sum_{e\in\delta(S)}c_e$, giving \eqref{eq:cut-interval}. Varying $\lambda(e,\cdot)$ on
+$e\in\delta(S)$ sweeps the full interval while keeping $E[S]$ fixed.
+\end{proof}
+
+\begin{example}
+  Let us look at the special case of $S$ being the set containing a single but arbitrary node $v\in V$ so $S=\{v\}$. In that case $E[S] = E[\{v\}]  = \emptyset$ as there are no internal edges for a single node. On the other hand the channels belonging to $v$ are the crossing edges $\delta(S) = \delta(\{v\})$. Applying Lemma \ref{lem:cut-interval} we see directly that the following holds for the total wealth $\omega(v)$ of $v$.
+  \begin{equation}
+    0 = \sum_{e\in E[S]}c_e \leq \omega(v) \leq \sum_{e\in\delta(\{v\})}c_e.
+    \end{equation}
+  The later is usually known as the total capacity of $v$ but in this case is also the same as the width of the cut interval of $S$. Thus the lemma describes in a more general setting what we already know and understand intuitively about the number of sats a node $v$ can own in given fixed topology.
+  \end{example}
+
+Lemma~\ref{lem:cut-interval} shows: \emph{every cut contributes a single scalar inequality} that constrains $\omega(S):=\sum_{v\in S}\omega(v)$ to a closed interval whose width is exactly $C(\delta(S))$.
+%This can be seen easily when substracting $\sum_{e\in E[S]} c_e$ from equation \ref{eq:cut-interval} as we get:
+%\begin{equation}
+%\label{eq:cut_interval_2}
+%0 \;\;\le\;\; \underbrace{\sum_{v\in S}\omega(v)}_{=w(S)} \;\;\le\;\; \sum_{e\i%n \delta(S)} c_e =: C(\delta(S)).
+%\end{equation}
+
+\subsection{Expected cut width for random topologies in $2$-party channel networks.}
+We need to study the cut width probabilistically for a more realistic picture.
+Let $n=|V|$ and fix $S$ with $|S|=s$. We can pick a two party channel uniformly from from $\binom{n}{2}$ pairs of nodes and study how likely it is that the picked channel will contribute to the cut interval.
+
+\begin{lemma}
+\label{lem:2pc-exact}
+A random undirected two party channel $e=(u,v)$ crosses $(S,\bar S)$ with probability $\frac{2s(n-s)}{n(n-1)}$. Hence the expected cut interval for a $2$-party chanenl entwork has a width of
+\[
+\EE[C(\delta(S))] \;=\; m\,c\cdot \frac{2s(n-s)}{n(n-1)}.
+\]
+In particular, for a single node with $|S| = s=1$,
+\(
+\EE[C(\delta(S))] = m\,c\cdot \frac{2}{n}.
+\)
+\end{lemma}
+
+\begin{proof}
+  For a random channel $e$ to cross the $(S,\bar S)$ cut one node needs to be in $S$ and the other one in $\bar S$.
+  In total here are $\binom{n}{2}$ pairs which could build a channel out of those $s\cdot(n-s)$ unordered pairs fulfill the above criterium.
+  Thus $P[e\in\delta(S)] = \frac{2s(n-s)}{n(n-1)}$
+
+  To compute the expected cut capacity for $m$ channels we draw channels without replacement.
+  Let $X_i=1$ if the $i$-th channel crosses the cut and otherwise $0$.
+  The number of crossings is $X=\sum_{i=1}^m{X_i}$.
+  The expected number of crossings is:
+  \begin{equation}
+    \EE[X] = \sum_{i=1}^m\EE[X_i] = \sum_{i=1}^mPr[X_i = 1] = m\cdot P[e_i\in\delta(S)] 
+  \end{equation}
+  Plugging in the probability and multiplying the expected number of edges in the cut with the fixed capacity $c$ we get the expected cut capacity of a two party channel network to be:
+  \begin{equation}
+m\cdot c\frac{2s(n-s)}{n(n-1)}
+    \end{equation}
+  which had to be shown. In the special case with $s=1$ we get:
+  \begin{equation}
+m\cdot c\frac{2(n-1)}{2n(n-1)} = m\cdot c\frac{2}{n}
+    \end{equation}
+  which concludes the proof.
+\end{proof}
+
+We note that for scalability reasons with respect to onchain bandwidth we cannot support densly connected graph but need a sparse network with $m\approx n$.
+As we have seen the cut capacity is an upper bound for the intervall width of $\omega(S)$.
+Thus the expected range for $\omega(v)$ for a peer $v$ in a two party channel network is twice the ratio of channels $m$ to peers $n$ multiplied with the average capacity of a channel.
+If a modification of the network (like introducing multiparty channels) increases $C(\delta(S))$ for some $S$, it widens that interval and cannot shrink the volume of the feasible wealth set $W_G$.
+Increasing many cuts simultaneously relaxes many inequalities at once, strictly enlarging $W_G$ generically.
+
+
+\subsection{Expected Cut Capacity in Multiparty Channel Networks}
+\label{subsec:hyperedge-cut}
+
+We will now generalize these results and show that the expected cut capacity for $k$-party channels ist strictly larger than for two party channels. More generally the expected cut capacity increases monotonically with $k$.
+This indicates that $k+1$-party channels are preferable to $k$-party channels from a liquidity perspective. 
+
+We model a $k$-party channel (also sometimes refered to as a coinpool) $e^k = \{v_{i_1},\dots,v_{i_k}\}\subset V$ of size $k$ and total capacity $c_{e^k}$ as an hyperedge.
+As with two party channels if $e^k$ intersects both $S$ and $\bar S$, then the multi party channel can shift all $c_{e^k}$ across the cut by internal reassignment.
+Thus it contributes $c_{e^k}$ to the cut width of the hypergraph.
+If $c_{e^k}\subset S$ or $c_{e^k}\subset\bar S$, it contributes $0$ to the width and $c_{e^k}$
+to the corresponding internal sum in~\eqref{eq:cut-interval}.
+
+For the following we randomly fix $m$ arbitrary $k$-party channels, each of capacity $c$.\footnote{The choice of a uniform hypergraph seems like a strong assumption. It was chosen to show the mathematical principle with rather simple formulars at hand. Yet without proof we believe a different topology could be choosen to carry out a similar argument.}
+
+
+%or a $k$-pool uniformly from $\binom{n}{k}$ $k$-sets
+%and we compare the special case of the two-party channel network ($k=2$) with that of an arbitrary channel size of $k$ as a $k$-uniform hypergraph with $m$ hyperedges.
+
+\begin{lemma}
+\label{lem:kpc-exact}
+A random $k$-set straddles $(S,\bar S)$ with probability
+\[
+q_k(s) \;:=\; 1 - \frac{\binom{s}{k}+\binom{n-s}{k}}{\binom{n}{k}}.
+\]
+Hence
+\[
+\EE[C(\delta(S))] \;=\; m\,c\, q_k(s).
+\]
+\end{lemma}
+
+\begin{proof}
+  There are $\binom{n}{k}$ potential random hyperedges in total. 
+  A hyperedge fails to cross the cut if and only if all its vertices lie in $S$ or all lie in $\bar S$.
+  The probability that all vertices lie in $S$ is $\frac{\binom{s}{k}}{\binom{k}{n}}$. The probability that all vertices lie in $\bar S$ is $\frac{\binom{n-s}{k}}{\binom{n}{k}}$
+  Substracting the sum of those probabilities from 1 is exactly the probability that a multi party channel straddles to the $(S,\bar S)$ cut.
+
+  For the expecte value we use the same argument as in lemma \ref{lem:2pc-exact}
+which concludes the proof.
+\end{proof}
+
+
+We emphasize that $q_2(s)$ mathches the formerly derrived probability $\frac{2s(n-s)}{n(n-1)}$ for two party channels. To see this plug $k=2$ into
+\[
+q_k(s)=1-\frac{\binom{s}{k}+\binom{n-s}{k}}{\binom{n}{k}}
+\]
+and simplify:
+
+\begin{equation}
+\begin{aligned}
+q_2(s)
+&=1-\frac{\binom{s}{2}+\binom{n-s}{2}}{\binom{n}{2}} \\
+&=1-\frac{\frac{s(s-1)}{2}+\frac{(n-s)(n-s-1)}{2}}{\frac{n(n-1)}{2}}\\
+&=1-\frac{s(s-1)+(n-s)(n-s-1)}{n(n-1)}\\
+&=1-\frac{s^2-s+,(n^2-2ns+s^2)-n+s}{n(n-1)}\\
+&=1-\frac{(2s^2-2ns)+n^2-n}{n(n-1)}\\
+&=\frac{n(n-1)-(2s^2-2ns+n^2-n)}{n(n-1)}\\
+&=\frac{2ns-2s^2}{n(n-1)}
+=\boxed{\frac{2s(n-s)}{n(n-1)}}.
+\end{aligned}
+\end{equation}
+
+\subsubsection{Monotonicity with increasing $k$}
+
+in order to show the desired monotonicity we need a lemma first.
+\begin{lemma}\label{lem:binom-step}
+Let integers satisfy $0\le k < s \le n$. Then
+\[
+\frac{\binom{s}{k+1}}{\binom{n}{k+1}}
+\;=\;
+\frac{\binom{s}{k}}{\binom{n}{k}}\cdot \frac{s-k}{\,n-k\,}.
+\]
+Equivalently,
+\[
+\frac{\binom{s}{k+1}}{\binom{s}{k}}
+\;=\;
+\frac{s-k}{k+1}
+\qquad\text{and}\qquad
+\frac{\binom{n}{k}}{\binom{n}{k+1}}
+\;=\;
+\frac{k+1}{\,n-k\,}.
+\]
+\end{lemma}
+
+\begin{proof}
+By definition $\displaystyle \binom{t}{r}=\frac{t!}{r!\,(t-r)!}$ for integers $t\ge r\ge 0$.
+
+First,
+\[
+\frac{\binom{s}{k+1}}{\binom{s}{k}}
+=\frac{\frac{s!}{(k+1)!(s-k-1)!}}{\frac{s!}{k!(s-k)!}}
+=\frac{k!(s-k)!}{(k+1)!(s-k-1)!}
+=\frac{s-k}{k+1}.
+\]
+furthermore,
+\[
+\frac{\binom{n}{k}}{\binom{n}{k+1}}
+=\frac{\frac{n!}{k!(n-k)!}}{\frac{n!}{(k+1)!(n-k-1)!}}
+=\frac{(k+1)!(n-k-1)!}{k!(n-k)!}
+=\frac{k+1}{\,n-k\,}.
+\]
+Multiply these two equalities gives:
+\[
+\frac{\binom{s}{k+1}}{\binom{s}{k}}\cdot\frac{\binom{n}{k}}{\binom{n}{k+1}} =\frac{s-k}{k+1}\cdot \frac{k+1}{\,n-k\,} \\
+\Leftrightarrow
+\frac{\binom{s}{k+1}}{\binom{n}{k+1}}
+\;=\;
+\frac{\binom{s}{k}}{\binom{n}{k}}\cdot \frac{s-k}{\,n-k\,}.
+\]
+which is the desired identity.
+\end{proof}
+
+\begin{corollary}\label{cor:binom-step-mirror}
+For $0\le k < n-s \le n$,
+\[
+\frac{\binom{n-s}{k+1}}{\binom{n}{k+1}}
+\;=\;
+\frac{\binom{n-s}{k}}{\binom{n}{k}}\cdot \frac{(n-s)-k}{\,n-k\,}.
+\]
+\end{corollary}
+
+
+\begin{theorem}
+\label{thm:qk-monotone}
+For all $1\le s\le n-1$ and $2\le k\le n-2$,
+\(
+q_{k+1}(s)\ge q_k(s).
+\)
+Equivalently, the expected cut width is nondecreasing in $k$ for \emph{every} fixed cut.
+\end{theorem}
+
+\begin{proof}
+To show $q_{k+1}(s)\ge q_k(s)$ it is equivalent to show
+\[
+\frac{\binom{s}{k+1}+\binom{n-s}{k+1}}{\binom{n}{k+1}}
+\;\le\;
+\frac{\binom{s}{k}+\binom{n-s}{k}}{\binom{n}{k}}.
+\]
+Using lemma \ref{lem:binom-step} and corollary \ref{cor:binom-step-mirror} we can write:
+
+\begin{equation}
+  \begin{aligned}
+1-q_{k+1}(s) &= \frac{\binom{s}{k+1}+\binom{n-s}{k+1}}{\binom{n}{k+1}}\\
+&= \frac{\binom{s}{k+1}}{\binom{n}{k+1}} +\frac{\binom{n-s}{k+1}}{\binom{n}{k+1}}\\
+&= \frac{\binom{s}{k}}{\binom{n}{k}}\cdot\underbrace{\frac{s-k}{n-k}}_{\leq 1} +\frac{\binom{n-s}{k}}{\binom{n}{k}}\cdot\underbrace{\frac{(n-s)-k}{n-k}}_{\leq 1}\\
+&\leq \frac{\binom{s}{k}}{\binom{n}{k}} +\frac{\binom{n-s}{k}}{\binom{n}{k}}\\
+& = 1- q_{k}(s)
+  \end{aligned}
+  \end{equation}
+
+Multiplying $1-q_{k+1}(s) \leq 1-q_{k}(s)$ with $-1$ and adding $1$ we get the desired $q_k(s) \leq q_{k+1}(s)$ which concludes the proof.
+\end{proof}
+
+The monotonicity of the probability that an hyperedge straddles to the cut set transfers directly to the expected width of the expected cut capacity.
+As with $2$-party channels we study what this means for the expected cut capacity of single node by setting $S = \{v\}$ to be a set of size $s=1$ with a single arbitrary node $v$. 
+
+Recall
+\[
+q_k(s)=1-\frac{\binom{s}{k}+\binom{n-s}{k}}{\binom{n}{k}}.
+\]
+
+For $s=1$ and $k\ge 2$ we have
+ $\binom{1}{k}=0$. Thus for $k\ge 2$,
+  \[
+  q_k(1)=1-\frac{\binom{n-1}{k}}{\binom{n}{k}}
+  =1-\frac{n-k}{n}
+  =\boxed{\frac{k}{n}}.
+  \]
+
+Summary:
+\[
+\boxed{q_k(1)=\begin{cases}
+0,&k=1 \footnote{For the edge case of $k=1$ we have: $q_1(1)=1-\frac{\binom{1}{1}+\binom{n-1}{1}}{\binom{n}{1}}=1-\frac{1+(n-1)}{n}=0$. This makes sense as $1$-party channel means there are not channels which means the cutwidth should be $0$ for any cut.}
+\\
+k/n,&2\le k\le n
+\end{cases}}
+\]
+So for $s=1$, the cross cut straddle probability is \textbf{linear} in $k$ (starting at $0$ for $k=1$, then $(2/n,3/n,\dots,n/n = 1)$.
+
+This means that the maximum expected wealth of a node $v$ in a $k$-party channel network with $m$ channels of capacity $c$ is:
+
+\[
+m\cdot c \frac{k}{n}
+\]
+
+This is consistent with the previously derived formular for $2$-party channels. Staying with $k$ party channels and assuming again a sparse network with $m\approx n$ we can see that the expected maximum wealth a node can have in a $k$-party channel network is proportional to $c\cdot k$.
+
+In particular for fixed $n$ and $m$ we can see that the expected cut interval for every nodes grows linearly with $k$.
+
+This result aligns nicely with the extrem case of $m=1$ and $k=n$. In that case all peers are members of a single channel with capacity $c$. In that case every node can have access to all the capacity $c$. Thus all wealth distributions are feasible which means every payment is feasible. 
+
+
+
+\subsection{Impact on feasible payment flows via max flow/min cut theorem}
+
+
+By formula \eqref{eq:payment}, a payment of amount $a$ from $s$ to $t$ is feasible iff the post-payment
+wealth vector remains feasible. Equivalently in the liquidity graph, the payment is feasible iff the $s\!\to t$ maxflow is at least $a$.
+By the max–flow/min–cut theorem \cite{elias1956note,FordFulkerson1956},
+\[
+\operatorname{maxflow}(s,t)\;=\;\min_{S\subset V:\ s\in S,\ t\notin S}\ C(\delta(S)),
+\]
+
+
+Thus any transformation that (weakly) increases every $s$–$t$ cut capacity cannot decrease
+$\operatorname{maxflow}(s,t)$, so at least as many payments are feasible.
+For entire wealth targets $\omega$, the same cut capacities appear on the right endpoints of the
+cut–interval constraints
+\[
+\sum_{e\in E[S]} c_e \;\le\; \omega(S) \;\le\; \sum_{e\in E[S]} c_e \;+\; C(\delta(S)),
+\]
+so enlarging cut widths can only enlarge the feasible wealth set $W_G$.
+
+\subsubsection{Coupling of $k$-party channels to two-party channels.}
+For any event $\mathcal{E}$ we write its indicator as
+\[
+\mathbf{1}\{\mathcal{E}\}
+=\begin{cases}
+1,&\text{if $\mathcal{E}$ holds},\\
+0,&\text{otherwise}.
+\end{cases}
+\]
+
+Fix a node set $V$ with $|V|=n$ and an index set of channels $e=1,\dots,m$.
+Each channel $e$ carries a (possibly heterogeneous) capacity $c_e>0$.
+
+We construct, on a common probability space, a $k$-party model and a paired two-party model as follows:
+for each channel $e$,
+\begin{enumerate}
+\item sample a $k$-subset $P_e\subset V$ uniformly from $\binom{n}{k}$ (interpreted as the endpoint set of a $k$-party channel)
+\item conditional on $P_e$, sample one unordered pair $E_e\in\binom{P_e}{2}$ uniformly (interpreted as the endpoints of a two-party channel).
+\end{enumerate}
+For a cut $(S,\bar S)$ with $S\subset V$, define the event that the $k$-party channel straddles the cut as:
+\[
+A_e(S):=\big(P_e\cap S\neq\emptyset\ \text{and}\ P_e\cap\bar S\neq\emptyset\big)
+\]
+and the event that the corresponding two-party channel crosses the cut
+\[
+B_e(S):=\big(E_e\ \text{has one endpoint in $S$ and one in $\bar S$}\big)
+\]
+
+\begin{lemma}\label{lem:indicator-dominance}
+For every cut $S\subset V$ and every channel index $e$,
+\[
+\mathbf{1}\{A_e(S)\}\ \ge\ \mathbf{1}\{B_e(S)\}.
+\]
+\end{lemma}
+
+\begin{proof}
+If the two-party channel $E_e$ crosses the cut, then its two endpoints lie on opposite sides; since $E_e\subset P_e$, the $k$-party channel $P_e$ necessarily contains vertices on both sides, i.e., $A_e(S)$ holds. Thus $B_e(S)\Rightarrow A_e(S)$, which implies the indicator inequality.
+\end{proof}
+
+\begin{corollary}\label{cor:cut-capacity-dominance}
+Let the cut capacity contributed by channel $e$ to $(S,\bar S)$ be
+\[
+C^{(k)}_e(S):=c_e\,\mathbf{1}\{A_e(S)\},\qquad
+C^{(2)}_e(S):=c_e\,\mathbf{1}\{B_e(S)\}.
+\]
+Then for every cut $S$,
+\[
+\sum_{e=1}^m C^{(k)}_e(S)\ \ge\ \sum_{e=1}^m C^{(2)}_e(S).
+\]
+In particular, the minimum cut satisfies
+\[
+\min_{S\subset V}\ \sum_{e=1}^m C^{(k)}_e(S)\ \ge\ \min_{S\subset V}\ \sum_{e=1}^m C^{(2)}_e(S).
+\]
+\end{corollary}
+
+\begin{proof}
+Sum the inequality in Lemma~\ref{lem:indicator-dominance} over $e$ and weight by $c_e$.
+Taking the minimum over all cuts preserves the inequality.
+\end{proof}
+
+\begin{corollary}\label{cor:maxflow-feasibility}
+For all ordered pairs $(s,t)\in V\times V$, $s\neq t$,
+\[
+\operatorname{maxflow}_{k\text{-party}}(s,t)\ \ge\ \operatorname{maxflow}_{\text{2PC}}(s,t)\footnote{more generally we could have conducted the same argument not from $k$-party channels to $2$-party but from $(k+1)$-party channels to $k$-party channels. All the set theoretic arguments stay the same in the general case.},
+\]
+by the max–flow/min–cut theorem. Moreover, the feasible-wealth set defined by the cut–interval constraints
+\[
+\sum_{e\in E[S]} c_e \;\le\; \omega(S) \;\le\; \sum_{e\in E[S]} c_e \;+\; \sum_{r=1}^m C^{(\cdot)}_r(S)\qquad(\forall S\subset V)
+\]
+is monotone in the cut widths, hence
+\[
+W_G^{(k\text{-party})}\ \supseteq\ W_G^{(\text{2PC})}.
+\]
+\end{corollary}
+
+\subsection{Implementing Multiparty Channels}
+It seems as if there are three main burdens of multi party channels.
+\begin{enumerate}
+\item coordination overhead and interactivity requirements
+\item unilateral exit costs - in particular on chain foot print
+  \item membership problem: How can a node easily join a multi-party channel?
+\end{enumerate}
+At the time of writing we are aware of two reasonable approaches that come in question when looking at multi party channels. First, we have eltoo \cite{decker2018eltoo} which would require a softfork of the bitcoin protocol. Secondly, Ark\footnote{\url{https://bitcoinops.org/en/topics/ark/}} style systems which are actively being worked on have been proposed as they seem to work with a rather low interactivity requirements\cite{Pickhardt2025} and could thus work as a channel factory\cite{burchert2018scalable}. 
 
 \section{Relation between the Polytope $L_G$ of Liquidity States and $W_G$ of feasible Wealth Distributions}
 Given the topology of the lightning network as a weighted, undirected graph $G(V,E,cap)$.
@@ -904,7 +1296,11 @@ It follows that
 for which we have explicitly provided the isomorphism.  
 In one direction, it is the projection of the channel states to the wealth distribution as defined by \( \pi \), and in the other direction, it is the construction of a feasible state for a feasible wealth distribution as described in Section \ref{sec:isomorphism}.
 
+
+
+
 \subsection{Rebalancing Payment Channels and Circulations}
+\label{sec:rebalancing}
 %% We wish to study the number of elements in the equivalance class $|[\lambda]|$.
 %% Remember for $\lambda,\mu\in[\lambda]$ we have: $\pi(\lambda)=\pi(\mu)$.
 %% Thus $\lambda$ and $\mu$ are projected to the same wealth distribution. 
@@ -1299,120 +1695,390 @@ The careful reader may have noticed that the polytope of feasible liquidity stat
 
 This means that for a uniform distribution of feasible wealth distributions in a spanning tree, the liquidity in channels would also be uniformly distributed, preventing depletion. This is remarkable because it has been shown \cite{guidi2019steadystate} that under the assumption of balanced flows, there is a stable state in which the liquidity within most channels is depleted, but there is a spanning tree in which the liquidity is uniformly distributed.
 
-\section{Channel Depletion as a Consequence of the Goemetry of Cycles}
-\textbf{WARNING! FROM HERE ON THE PAPER NEEDS TO BE REWRITTEN AND FINALIZED}
-We have seen that under the assumption that all feasible wealth distributions in $W_G$ are equally likeli that in spanning trees the liquidity states is also uniformly distributed.
-In particular the channel states are equally likely and idependent of each other.
-
-In figure \ref{fig:equivalenceclasses} (b) we have seen that the the feasible wealth distributions $w\in W_G$ with $|\lambda|=|\pi^{-1}(\{w\})|$ are located on the boundary of $W_G$.
-Assuming every node in the network is part of a cycle then the wealth distributions with $|\lambda|=1$ are because of theorem \ref{thm:circulations} those that do only have the trivial circulation ($f=0$) on the associated liquidity network $\mathcal{L}(G,\lambda)$.
-The fact that no other circulations exists means that at least one channel has to be depleted. 
-It is a well known fact most of the volume of high dimensional convex bodyes is located close to the boundary.
-To see this for an $n$-dimensional hyper we realize that its $n$ dimensional volume is described as:
-$$vol = l^n$$
-If we want to see how much volume is on the boundary we have to substract the volume of a cube that has a length of $l-2$:
-$$vol(boundary) = l^n - (l-2)^n$$
-Use concentration of measure to show how depletion has to occur. 
-
-\section{Multiparty channels}
-Everyhing we saw generalizes easily to $k$-party channels.
-A $k$-party channel is a channel is an element in $V^k$ thus the channels build a subset $E_k\subset V^k$.
-The capacity function $cap_k:E_k\longrightarrow \mathbb{N}$ is generalized.
-We for $2\leq k\leq n$ we call $G_k(V,E_k,cap_k)$ a $k$-party payment channel network.
-If $k==2$ we omit $k$ and just have a regular graph.
-Obviously the principle of conservation of liquidity must still hold:
-\begin{equation}
-cap(e)=\sum_{x\in e}\lambda(e,x) \forall e\in E_k
-\end{equation}
-
-Obviously the number of possible $k$ party channels in a network of $n$ participants is defined by:
-$${{n}\choose {k}}$$
-Thus $|E_k|\leq {{n}\choose {k}}$.
-
-We can easily see that the hypberbox $B$ which describes the variables is $k\cdot m$ dimensional.
-If the $m$ linear independent constraints are divided out we get the state polytope $S_k\subset \mathbb{Z}^{(k-1)\cdot m}$.
-We again have the cannonical projection $\pi: S\longrightarrow W_{G_k}$ to the polytope of feasible wealth distributions with $k$-party channels.
-
+\section{Channel Depletion as a Consequence of rational economic behavior of nodes}
+\label{sec:depletion}
+So far we have neglected the existence of routing fees to study the possible liquidity states for a feasible wealth distribution given a channel network.
+In practice node operators will charge a fee to fulfill forwarding requests.
 \begin{definition}
-  Let $G_k(V,E_k,cap)$ be a $k$-party channel network.
-  We call $G_{k+1}(V,E_{k+1},cap_{k+1})$ an extension if
-  $$|E_{k+1}| \leq |E_k|$$
-  and
-  $$\forall e=\{x_1,\dots,x_k\}\in E_k \hspace{0.25cm}\exists! e'\in E_{k+1} : e\subset e'$$
-  and
-  $$cap_{k+1}(e') =\sum{e\in\epsilon} cap_k(e)$$
-  with $\epsilon=\{e_1,\dots,e_N\}\subset E_k$ be the subset of edges in $E_k$  such that $|e'\backslash e_i|=1$.
-  $\epsilon'$ is the set of edges that are being extended to $e'$.
+  A function $f:E\times V\longrightarrow \mathbb{N}_0$ is called a fee function. It assignes each channel the ppm that the node operator charges to forward money on that channel. It neglects upfront fees and the base fee.
+\end{definition}
+At the same time all node implementations will include the minimization of routing fees that need to be paid to their objective cost function when selecting a payment min cost flow (or payment paths).
+We see how node operators set their fees and try to allocate liquidity in their channels to maximize their fee potential.\footnote{\url{https://github.com/DerEwige/speedupln.com/blob/main/docs/fee_potential_and_rebalancing.md}}
+For the following we neglect upfront fees and the basefee that node operators charge to fulfill a routing request.
+\begin{definition}
+  The \textbf{fee potential of a node} is defined through:
+  \[
+  p_v=\sum_{e\in E:v\in e}f(e,v)\cdot\lambda(e,v)
+  \]
 \end{definition}
 
-Graph extensions are useful because we can proof the extensability theorem which indicates that multi party channels allow for more feasible wealth distributions.
+Routing nodes try to set fees and move liquidity in a way that maximizes their fee potential.
+\begin{definition}
+The \textbf{fee potential of the network} is defined similiarly as:
 
-
-\begin{theorem}
-  \textbf{Extensability Theorem:} 
-  Let $G_{k+1}$ be an extension of $G_{k+1}$ then 
-  $$W_{G_k} \subsetneq W_{G_{k+1}}$$
-\end{theorem}
-
-\begin{proof}\footnote{I assume one can crate a projection matrix that mapps the constraints from the $k+1$ party channel network down to $k$-party channel networks}
-  Let $w\in W_{G_k}$ be a a feasible wealth distribution.
-  We need to show that $w\in W_{G_{k+1}}$
-  Because $w$ is feasible there exists a feasible state $x\in\pi_k^{-1}(w)$ that satisfisfies the wealth distribution.
-  For any edge $e' \in G_{k+1}$
-  Beacuse $G_{k+1}$ is an exstension $\epsilon$ has at least one element.
-  Now we set:
 \begin{equation}
-  e'_x = \begin{cases}
-      \sum_{e\in\epsilon}e_x & \text{if $\exists e\in\epsilon : x\in e$}\\
-      0 & \text{(otherwise)}
-    \end{cases}
+p_G=\sum_{e\in E}\sum_{v\in e}f(e,v)\cdot\lambda(e,v)
 \end{equation}
-$e'$ fulfills conservation of liquidity.
-Thus we have constructed a feasible state $x$ in the $(k+1)$-party channel network with $\pi(x)=w$.
-This concludes our proof and demonstrates that in the multi party channel extension there are at least as many wealth distributions feasible as before.
+\end{definition}
+In section \ref{sec:isomorphism} we have seen that that the solution of an integer linear program will help us to decide if wealth distribution is feasible on the network.
+In section \ref{sec:rebalancing} we saw that there are often many liquidity states that fulfill the wealth distribution if cycles exist on the network.
+Given rational economic behavior of nodes we assume that the most likely liquidity state of a feasible wealth distribution is one that maximizes the fee potential $p_G$ of the network.
+The solution to this maximization problem can be found with the same linear program that is used to decide if a wealth distribution is feasible.
+
+When generating random networks with random fee functions we can for a feasible wealth distribution (e.g. the center of the polytope of feasible wealth distributions) compute the liquidity state that maximizes the fee potential.
+Doing so we observer that most channels will be depleted:
+
+\begin{figure}[h]
+\centering
+ \includegraphics[width=0.41\textwidth]{circuitrank.png}
+\caption{The number of depleted channels correlates strongly with the cicruit rank of the network}
+\label{fig:circuitrank}
+\end{figure}
+
+This diagram emperically underscores the results by \cite{guidi2019steadystate}.
+In their research they assumed that the steady state of flows on channels across the network will let channels channels deplete besides a spanning tree.
+In the following we will show how the same result can be derrived assuming the above mentioned linear program resulting from rational economic behavior of node operators.
+
+\begin{lemma}\footnote{Before publication of this Lemma and proof Anastasios Sidiropoulos has shared with me the core argument of this lemma in a private conversation when I shared figure \ref{fig:circuitrank} in a mail discussion with him.}
+  \label{lem:differenceOfFeesDepletion}
+  Assume $\lambda\in L_G$ is a feasible liquidity state that satisfies a wealth distribution $\omega\in W_G$ and maximizes the fee potential $p_G$.
+  Let $C=\{v_0,\dots,v_n=v_0\}$ be a non depleted cycle of channels on the network. This means $\forall i\in\{0,\dots,n-1\}$:
+  \begin{enumerate}
+  \item $(v_i,v_{i+1})\in E $.
+  \item $\lambda((v_i,v_{i+1}),v_i)\neq 0 \neq \lambda((v_{i},v_{i+1}),v_{i+1})$
+  \end{enumerate}
+  Then:
+  \[
+  \sum_{i=0}^{n} ( f((v_i, v_{i+1}),v_i) - f((v_i, v_{i+1}),v_{i+1}) = 0
+  \]
+  This means the objective function does not change if money is rebalanced along the cycle.
+\end{lemma}
+\begin{proof}
+  The contribution of the cycle to the objective function is given through:
+    \begin{align*}
+      p_C = & \sum_{i=0}^{n} f((v_i, v_{i+1}),v_i) \cdot \lambda((v_i,v_{i+1}),v_i)  \\
+      + & \sum_{i=0}^{n} f((v_{i+1}, v_{i}),v_{i+1}) \cdot  \lambda((v_i,v_{i+1}),v_{i+1})
+    \end{align*}
+    Since all channels are non depleted we can send at least $x$ units with $|x|\geq 1$ along the cycle.
+    This does not change the wealth distribution.
+    However the new objective function computes to:
+    \begin{align*}
+      p_C' = & \sum_{i=0}^{n} f((v_i, v_{i+1}),v_i) \cdot (\lambda((v_i,v_{i+1}),v_i)-x)  \\
+      + & \sum_{i=0}^{n} f((v_{i+1}, v_{i}),v_{i+1}) \cdot  (\lambda((v_i,v_{i+1}),v_{i+1})+x)
+    \end{align*}
+    Thus the difference $\delta = p_C - p_C'$ computes to:
+    \begin{align*}
+      \delta = & \sum_{i=0}^{n} f((v_i, v_{i+1}),v_i) \cdot x  \\
+      + & \sum_{i=0}^{n} f((v_{i+1}, v_{i}),v_{i+1}) \cdot (-x)
+    \end{align*}
+    This is the same as:
+    \begin{align*}
+      \delta = x \cdot \underbrace{\sum_{i=0}^{n} f((v_i, v_{i+1}),v_i) - f((v_{i+1}, v_{i}),v_{i+1})}_{const}
+    \end{align*}
+    We note that $x$ can be positive or negative as none of the channels were depleted.
+    Furthermore the sum of differences of fees is constant.
+    Thus the change $\delta$ in the network's fee potential $p_G$ after rebalancing has to be $0$ otherwise $p_G$ was not maximal.
+    Since $x$ was non zero we conclude that this is only possible if the constant sum of differences of fees is $0$ which concludes the proof
 \end{proof}
-While the communications protocol for multiparty channels are complicated and developer currently avoid implementing such channels several cryptographic secure constructs for multiparty channels exist.
 
-\subsection{Example how multiparty channel network achieves more feasible wealth distributions}
-Assume we have $4$ participants bringing $3$ coins each. for $k=2$ we could create the following network:
+The careful reader will note that there is an alternative condition such that the fee potential could be maximal but the sum of differences in fees along the circle is non $0$.
+This happens exactly if the circle contains depleted channels and it is not possible to further rebalance in this direction.
 
-We have $6$ payment channels of capacity $2$ each and each user is part of $3$ of the $4$ channels.
-In particular a user could allocate $1$ coin to each channel.
-This topology corresponds to a fully connected graph.
-Each user could own at most $6$ coins in this topology.
+\begin{corollary}
+  Let the fee potential $p_G$ be maximal and $\delta = x \cdot \underbrace{\sum_{i=0}^{n} f((v_i, v_{i+1}),v_i) - f((v_{i+1}, v_{i}),v_{i+1})}_{const}$ be non zero for some $x\neq 0$.
+  Then some channel along the cycle must be depleted e.g.:
+  \begin{itemize}
+  \item $\lambda((v_i,v_{i+1},v_i)) = 0$ or
+  \item $\lambda((v_i,v_{i+1}),v_{i+1})=0$
+  \end{itemize}
+\end{corollary}
 
-On the other hand a setup where these $4$ participants select $k=3$ to create $3$-party channels we see that in this particular case at most $4$ such channels are possible.
-Each user would be part in $3$ of the $4$ multiparty channels.
-Again in this particular topology each user could have broght $1$ coin to each channel where the capacity of the channels is now $3$.
-Each user could theoretically own up to $9$ coins in this instantiation of the payment channel network.
+Of course in an arbitrary network the condition from the lemma and corollary are knife edge conditions and unlikely to take place.
+Thus depletion of channels is expected to happen and the norm rather than the exception unless for a spanning forest whose exact location may vary with the current wealth distribution.
 
-Of course fully connected networks - in particluar with a small number of users - are rather artificial. but the fact that in this particular case we need only $4$ instead of $6$ on chain transactions and users can not only have more coins but overall more wealth distributions would be possible.
+\section{Mitigation strategies for Channel Depletion}
+As we have seen in the last section depletion of channels seems to be an inherent phenomenon given the design of the protocol and resulting incentives.
+In this chapter we will utilize the previous results to describe $3$ different approaches to mitigate depletion by chaning the incentives through an upgrade of the protocol.
+We sepecifically do not recommend any of those approaches as they yield consequences beyond the scope of this paper. We just present working solutions and explainations why they would work if adopted.
 
-\section{Emperical Results from Simulations and Experiments}
-There are currently a few outdated ipython notebooks on the github repository of this paper.
-In those we used a trick to more quickly decide if a wealth distribution is feasible.
-Unfortunately this resulted in getting false positives.
-We will update this section as soon as the notebooks are fixed
+\subsection{Introducing symmetric fees on channels}
+The technically easiest approach to mitigate depletion is to introduce and force symmetric routing fees for channels.
+The previous section demonstrated that even within a circular economy and net 0 flow on all peers most channels are expected to deplete.
+This is due to the fact that payments from a node $v$ to another node $u$ may take a different flow than the reverse payment from node $u$ to node $v$.
+One very obvious way to mitigate this problem is by looking at lemma \ref{lem:differenceOfFeesDepletion}.
+We recognized that depletion takes only place if the sum of fee differences along the channels in a cycle is not $0$.
+Were the Lighting Network community to upgrade the protocol and force node operators to publish a single fee rate for a channel which would be charged for forwarding an HTLC in both directions the condition of the lemma would hold and there would not be any depletion presure emerging from the economically selfish behavior of sending nodes.
+While technically easily to change the protocol in this way we assume that node operators would not be willing to accept such a change as they would have to agree with their channel peer on a fee that would be charged in both directions. 
 
-\section{Conclusion}
-Generally speaking we seek a preferable\footnote{for some suitable definition of preferable} tradeoff between the expenses to maintain channels and the limits and burden they produce to the feasible wealth distributions for the users of payment channel networks.
+\subsection{Convex (tiered) fees: discrete model and interior--boundary dynamics}
+\label{subsec:convex-discrete}
 
-We have seen that the two party channel design seems too constraint to allow for capital to be deployed efficiently as too many wealth distributions become infeasible.
-In particular it seems unlikely that the rate of infeasible payments can be reduced to a level that the payment channel network can relay on liquidity management through on chain transactions to fulfill all conceivable payment requests.
+Operators typically raise the forwarding fee on a channel $e=\{u,v\}$ as the local liquidity at an endpoint falls ($\lambda(e,u)\!\approx\!0$) and lower it as the channel fills ($\lambda(e,u)\!\approx\!c_e$). This scarcity pricing aims to throttle demand and avoid boundary hits. A natural abstraction is a tiered (discretely convex) schedule that becomes more expensive as remote liquidity increases (equivalently, as local liquidity decreases). In practice, such schedules are hard to deploy with source routing, because fees would need to change with state; fee rate cards~\cite{Neigut2022} emulate convexity with piecewise-linear tiers but do not solve the sender's lack of state visibility.
+
+For each channel $e=(u,v)$ the fees are charged by the sending endpoint of a hop. Thus when using scarcity pricing the tier applied on hop $u\!\to\!v$ is a nonincreasing function $p_{e,u}$ of the sender’s local liquidity $\lambda(e,u)$\footnote{we could see it as increasing in the remote liquidity which is the total net liquidity that has been sent. In this sense the function can be seen as convex.}:
+\[
+p_{e,u}:\{0,1,\dots,c_e\}\to\mathbb{Z}_{\ge 0}
+\]
+
+Along a simple cycle $C=(v_0,\dots,v_\ell=v_0)$ with canonical orientation $v_i\!\to\!v_{i+1}$ and edges $e_i=(v_i,v_{i+1})$,
+the strict circulation $\lambda\mapsto\lambda_x$ updates local endpoint liquidity by
+\[
+\lambda_x(e_i,v_i)=\lambda(e_i,v_i)-x
+\]
+and the remote liquidity of each channel by
+\[
+\lambda_x(e_i,v_{i+1})=\lambda(e_i,v_{i+1})+x
+\]
+with
+\[x\in[x_{\min},x_{\max}]=\big[-\min_i \lambda(e_i,v_{i+1}),\ \min_i \lambda(e_i,v_i)\big]\cap\mathbb{Z}\]
+Using the discrete potential
+\[\Phi(\lambda)=\sum_{e=(u,v)}\sum_{t=1}^{\lambda(e,u)}p_{e,u}(t)+\sum_{t=1}^{\lambda(e,v)}p_{e,v}(t)
+\]
+the net one–unit gain in the cycle direction is
+%\begin{equation}
+  \begin{align*}
+\Delta_C(x)\ & :=\ \Phi(\lambda_{x+1})-\Phi(\lambda_x) \\
+& =\ \sum_{i=0}^{\ell-1}\Big[p_{e_i,v_{i+1}}\!\big(\lambda_x(e_i,v_{i+1})+1\big)\;-\;p_{e_i,v_i}\!\big(\lambda_x(e_i,v_i)\big)\Big]
+\label{eq:deltaC-orient}
+\end{align*}
+%\end{equation}
+This is next-unit price at each receiver (its local liquidity increased by $1$) minus refunded price at each sender. Mor importantly $\Delta_C(x)$ is monoton as we will see in the following lemma: 
+
+\begin{lemma}
+If every $p_{e,u}$ is nonincreasing in local liquidity $\lambda(e,u)$, then $\Delta_C(x)$ is nonincreasing in $x$ on $[x_{\min},x_{\max}-1]\cap\mathbb{Z}$.
+\end{lemma}
+
+\begin{proof}
+Let $R_i(x)=\lambda_x(e_i,v_{i+1})$ and $S_i(x)=\lambda_x(e_i,v_i)$.
+We define the per-edge contribution
+\[
+\Delta_i(x)\;:=\;p_{e_i,v_{i+1}}\big(R_i(x)+1\big)\;-\;p_{e_i,v_i}\big(S_i(x)\big)\]
+so that
+\[
+\Delta_C(x)=\sum_{i=0}^{\ell-1} \Delta_i(x).
+\]
+When we increase the cycle push by one unit ($x\mapsto x+1$), the receiver’s local liquidity increases and the sender’s local liquidity decreases:
+\[
+R_i(x+1)=R_i(x)+1,\qquad S_i(x+1)=S_i(x)-1.
+\]
+Hence the one-step change of the $i$-th contribution is
+\begin{align*}
+& \Delta_i(x+1)-\Delta_i(x) \\
+&=\Big[p_{e_i,v_{i+1}}\big(R_i(x+1)+1\big)-p_{e_i,v_{i+1}}\big(R_i(x)+1\big)\Big]\\
+&\quad-\Big[p_{e_i,v_i}\big(S_i(x+1)\big)-p_{e_i,v_i}\big(S_i(x)\big)\Big]\\
+  &=\underbrace{p_{e_i,v_{i+1}}\big(R_i(x)+2\big)-p_{e_i,v_{i+1}}\big(R_i(x)+1\big)}_{\text{receiver term} \leq 0}\\
+& -
+\underbrace{\big(p_{e_i,v_i}(S_i(x)-1)-p_{e_i,v_i}(S_i(x))\big)}_{\text{sender term}\geq 0}.
+\end{align*}
+Since we used scarcity pricing $p$ is nonincreasing in local liquidity. This means for any $x$ we have $p(x+1)\le p(x)$ and $p(x-1)\ge p(x)$.
+
+Therefore
+\[
+\underbrace{p_{e_i,v_{i+1}}(R_i(x)+2)-p_{e_i,v_{i+1}}(R_i(x)+1)}_{\le 0}\ \le\ 0
+\]
+and
+\[
+\underbrace{p_{e_i,v_i}(S_i(x)-1)-p_{e_i,v_i}(S_i(x))}_{\ge 0}\ \ge\ 0,
+\]
+and thus
+\[
+\Delta_i(x+1)-\Delta_i(x)\ \le\ 0-0\ =\ 0.
+\]
+Summing over $i$ gives $\Delta_C(x+1)-\Delta_C(x)=\sum_i\big(\Delta_i(x+1)-\Delta_i(x)\big)\le 0$.
+\end{proof}
+
+Hence $\Delta_C$ changes its sign at most once across its feasible integers which can be used to proof the following:
+
+\begin{lemma}
+\label{lem:cycle-optimality}
+Fix a simple cycle $C$ and the feasible integer interval $[x_{\min},x_{\max}]$.
+If each tier $p_{e,u}$ is nonincreasing in local liquidity, then $\Delta_C(x)$ is nonincreasing in $x$.
+Consequently:
+\begin{enumerate}
+\item (\emph{Interior balance}) If there exists $x^\star\in[x_{\min},x_{\max}-1]$ with
+\[
+\Delta_C(x^\star)\ \ge\ 0\ \ge\ \Delta_C(x^\star\!+\!1),
+\]
+then every minimizer of $x\mapsto \Phi(\lambda_x)$ on $[x_{\min},x_{\max}]$ lies in $\{x^\star,x^\star\!+\!1\}\subset (x_{\min},x_{\max})$.
+\item (\emph{Boundary depletion}) If no such sign change exists, then the minimizer is at a boundary:
+$\arg\min \Phi(\lambda_x)=\{x_{\min}\}$ when $\Delta_C>0$ everywhere, and
+$\arg\min \Phi(\lambda_x)=\{x_{\max}\}$ when $\Delta_C<0$ everywhere.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+$\Delta_C$ nonincreasing means the discrete differences of $\Phi(\lambda_x)$ decrease with $x$, i.e.\ $\Phi(\lambda_x)$ is discrete convex on $[x_{\min},x_{\max}]$.
+For any discrete convex function, the forward difference crossing through $0$ brackets all minimizers; if there is no crossing, the minimum occurs at an endpoint in the direction of the sign.
+\end{proof}
+
+We can interpret the sign change of $\Delta_C$ is a stable attactor: When it occurs, the cycle admits an interior operating equilibrium with no direction depleted. If there is no sign change that attractive equilibrium is outside the feasibility region and the channel will deplete to the boundary of the feasibility region i.e. some directed local liquidity hits zero. With strong enough convexity depletion should not happen. In the current case of a linear fee function the attraction point is at infinity and always outside the feasibility region. Thus depletion under linear fees is the norm.
+
+Tiered (discretely convex) schedules can act as flow control: Opposing price tiers meet in the interior on many cycles, so opportunistic cycle pushes stall before any direction hits zero. However, utilization-responsive tiers conflict with source routing: The path cost depends on hidden, instantaneous $\lambda(e,\cdot)$ at every hop. Without state disclosure or probing, the sender cannot price paths correctly. Thus, while convex tiers can stabilize liquidity and mitigate depletion, broad deployment likely requires protocol support beyond static gossip of fee rates.
 
 
-Because of the concentration of measure we can see that channel depletion is to be expected - which leads to a higher rate of payment attempts - even when delivering feasible payments.
-The communities wish to avoid credit in payment channel networks is another reason for an increased rate of infeasible payments. 
+\subsubsection{Experiment: Depletion with linear vs.\ quadratic fees}
+\label{subsubsec:exp-convex-vs-linear}
 
-While the narrative around the likelihood has shifted from being a peer to peer payment system for end users towards being a peer to peer settlement layer between service providers our results indicate that even a fairly small and professionally run payment channel network probably lacks a sufficient service level in terms of reliability and rate of payments being feasible and might depend on too many on chain transactions to to satisfies the user's requests.
+To demonstrate the effect we implemented a small synthetic network with fixed capacities, balanced initialization, and a net-zero (circular economy) demand model with unit-sized payments and selfish, source-based path selection. Fees were evaluated on disclosed schedules; attempts succeeded iff all liquidity along the chosen path were sufficient; successful payments updated endpoint liquidity; no explicit rebalancing was performed during a run.
 
-Our results indicte that the idea that a two party Lightning Network can be used as a payment / settlement network between federations seems less promessing than understanding federations as multi party channels.
-Instead of connecting federations via two party channels it might seems more promesing to create an open standard for a cross federation / multiparty routing protocol.
-Of course this could also come in the form of an extension to the lighting network that allows the creation of multi party payment channels and routing though them. 
+Per endpoint $(e,v)$ we compared two different fee schedules.
+\begin{itemize}
+\item \textbf{Linear (today’s proportional fee intuition):}
+Define a total fee on an edge as
+\(F(x) = ppm\cdot x\)
+Sending one additional sat on an a channel will always cost you \emph{ppm}.
 
-In particular we have seen that the average access to capital of users grows linear in the number of peers per channel ($k\cdot\frac{C}{n}$).
-Also the Polytope $W_k$ of feasible wealth distributions of a $k$-party channel network is a subset of the polytope $W_{k+1}$ of wealth distributions for any extension of the $k$-party channel network to an $(k+1)$-party channel network.
-This is a strong indicator that multi party channels are useful.\footnote{In particular for $k=n$ we have only one large multiparty in which all wealth distributions that are feasible on chain will also be feasible in the payment channel. This is similar to systems like Ark.}
+\item \textbf{Quadratic (ppm as coefficient of a quadratic total-fee):}
+Define a total fee on a channel $e=(u,v)$ edge as 
+\(F(x) = ppm\cdot \frac{x^2}{c_e}\)
+In this case the routing becomes more expensive for every sat that is routed on the channel. In particular the cost depends on $\lambda$. To see this we compute\begin{equation}
+\begin{aligned}
+\Delta F & = F(\lambda(e,v) + 1) - F(\lambda(e,v)) \\
+ & = \frac{ppm}{c_e}\cdot(2\lambda(e,v)+1) \approx \frac{ppm}{c_e}2\cdot\lambda(e,v)
+\end{aligned}
+\end{equation}
+In particular if $\lambda(e,v)=c_e/2$ we have $\Delta F = ppm$ which is the same unit cost as the linear fee schedule. If more liquidity is on $u$'s side of the channel the cost to rout a satoshi is cheaper than \emph{ppm}, otherwise it is  more expensive. 
+This shows why we devide the feerate by the total capacity of the channel. We wanted to stay comparable with the \emph{ppm} values of today's proportinal \emph{ppm} interpretation.
+\end{itemize}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{convexFlowControl}
+\caption{We can see that with a convex fee schedule all channels attract a similar amount of flow while some channels do not attract flow in the linear fee setting.}
+  \label{fig:convexFlowControl}
+\end{figure}
+
+We crated an artificial sample network consisting of 3 nodes that formed a single cycle to demonstrate the effect of a convex fee schedule. In figure \ref{fig:convexFlowControl} we can see nicely that all channel have roughly the same amount of flow if a convex fee schedule is used while some channels attract no flow if a linear fee schedule is being used. This emperically confirms that flow controll via perfectly convex fee schedules is possible. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{convexTimeSeries}
+\caption{On the time series we can see how the channel's liquidity depletes witha linear fee schedule but stays relatively balanced in the convex fee schedule.}
+  \label{fig:convexTimeSeries}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{convexMedianLiquidity}
+\caption{The median relative liquidity summarizes the time series and shows how convex fee scheduls lead to more balanced liquidity on average.}
+\label{fig:convexMedianLiquidity}
+\end{figure}
+
+In Figure \ref{fig:convexTimeSeries} we can see that the steady state of the linear fee protocol contains depleted channels. In contrast the steady state under a convex fee regime is within the interior of channels. Thus sufficient liquidity for feasibile payment requests is always  available. The time seriese are well summarized when looking at the median values from figure \ref{fig:convexMedianLiquidity}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{convexFees}
+\caption{Total network fees hardly change when going from linear to convex fees. However the earnings per node can change substatially. With a network wide convex fee schedule the earnings per node seem to equalize}
+  \label{fig:convexFees}
+\end{figure}
+
+
+Finally in figure \ref{fig:convexFees} Despite the stark difference in depletion, aggregate routing fees over not change substantially across the two schedules. However it did change substentially for single nodes. Intuitively, convexity reshapes where flow runs (away from boundaries) rather than how much fee per unit is collected on average.
+
+
+These observations support the view that convex, tiered fees act as flow control: They create interior stall points on cycles, preventing channels from hitting the boundary under persistent directional demand. However, fully utilization-responsive tiers complicate source routing: The effective end-to-end price depends on instantaneous, hidden liquidity $\lambda(e,\cdot)$ at each hop. Without additional mechanisms (coarse tier announcements with hysteresis, quote-based routing, or limited state disclosure), senders cannot price paths accurately. Exploring such protocol options lies beyond the scope of this experiment, but the qualitative stabilization result is robust across the small-network scenarios we tested.
+
+\subsection{Optimal collaborative channel replenishment}
+We have seen that for a given wealth distribution $\omega$ there may be several feasible liquidity distributions in the fiber $\pi^{-1}(\{\omega\})$. In a later chapter we will see that the mainly linear structure of the fee function and the economic rational behavior of sending nodes will lead to channel delpetion. This a burden for the network as feasible payments may take time and several attempts to be delivered which effectively reduces reliability and time to complete payments.
+
+It would be desireable if channels could reprovide liquidity without doing expensive on chain transactions as those need to be saved to adress the infeasible payments.
+Node operators often discuss the idea of circular rebalancings. However given the fact that the number of strict circulations are equivalent to the number of equivalent liquidity states we can ask if nodes may collaboratively select a circulation that is benefitial to their own liquidity desires and interests?
+This can be done using the geometric properties:
+
+
+The channel replenishment problem is equivalent to finding a circulation that shifts the liquidity to a more desireable state (e.g. less depletion). This problemen reduces to selecting an optimal element from $[\lambda]$. As demonstrated previously, feasible solutions can be obtained by solving a system of linear Diophantine equations subject to two constraint classes \textbf{Conservation of Liquidity} and \textbf{Conservation of Wealth}.
+The solution space forms a convex polytope $P \subset \mathbb{Z}^{2m} \cap [0, c(u,v)]^{2m}$, which may be empty for certain $(\omega, G)$ pairs due to the intersection with the capacity hypercube.
+
+Our optimization approach introduces a target liquidity state $x_0 \in \mathbb{Z}^{2m}$, representing the desired channel configuration. While we typically select $x_0$ where each node holds exactly half of each channel's capacity ($c(u,v)/2$), the framework accommodates arbitrary target states. The optimal replenishment problem then becomes:
+
+Minimize $||x - x_0||_2$ subject to $x \in P \cap \mathbb{Z}^{2m}$.
+
+Unfortunately it is known that optimizing a quadratic function over integers is np-hard \cite{delpia2014mixedintegerquadraticprogrammingnp}. However we present a very practical heuristic that delivers an exact solution that is close enough to the optimal solution. The important point is that we need an exact solution and not just an approximate solution. Thus we approach the problem in two phases: We start with a \textbf{Continuous relaxation} by computing $x_{\rho} = argmin\left(||x - x_0||_2\right)$ over $P \subset \mathbb{R}^{2m}$ using quadratic programming. In a second step we create a $\delta$ cube around $x_{\rho}$ in which we find some feasible \textbf{integer approximation}:
+
+\[B_\delta(x_\rho) := \left\{x \in \mathbb{Z}^{2m} : ||x - x_\rho||_\infty \leq \delta\right\}\]
+
+We suggest to choose $\delta = \left|\sqrt{\frac{||x_\rho - x_0)||_2}{m}))}+1\right|$ though one could search for $\delta$ with step size control. However our choice of $\delta$ ensures the neighborhood contains feasible integer solutions while maintaining computational tractability. 
+
+We implemented the protocol and run it on a network with the topoology of a random graph with 100 nodes and 1556 channels. We run payments until the network went into a state with most channel's being depleted. In that state $11.31\%$ of all channels have between have liquidity between $0.4$ and $0.6$
+and $41.52\%$ of all channels have between have liquidity between $0.1$ and $0.9$.
+
+\begin{figure}[h]
+\centering
+ \includegraphics[width=0.41\textwidth]{channelReplenishment}
+\caption{We can see the stark shift of the shape of the liquidity distribution when using the geometric channel replenishment protocol}
+\label{fig:replenishment}
+\end{figure}
+
+Figure \ref{fig:replenishment} indicates that after running the proposed protocool to find the ciruclation that moves the liquidity - given the wealth distribution closest to the center of the liquidity poloytope we can see that $56.30\%$ of all channels have their liquidity between $0.4$ and $0.6$ and $95.24\%$ of all channels have their liquidity values between $0.1$ and $0.9$.
+The shape of the distribution went from the typical bimodal distribution to a normal distribution with moste liquidity centered around the middle of the channel. This would allow for quick path selection of feasible payments.
+
+In order to achieve this rebalancing $33.23\%$ of the networks capacity had to be allocated to htlcs and rebalanced. We have not studied how this optimal geometric approach outperforms greedy heuristics\cite{pickhardt2019imbalancemeasureproactivechannel} that we have proposed in the past.
+
+As we took an exact integer approximation within the $\delta$-environment of the real solution $x_\rho$ it is interesting to compare how far the integer and real solutions are away from the desired state $x_0$. The optimal solution over the real numbers has in this case a distance of $91092.32$ where the non optimal but feasible integer solution had a distance of $91096.86$. We note that the difference seems neglectible though a formal proof of an approximation guarantee of the proposed method would be desireable. 
+
+It is important to note that a chanenl replenishment protocol like this yields severe practical issues:
+\begin{enumerate}
+\item A centralized coordinator is needed.
+\item Nodes need to share their wealth information.
+\item If individual target states are allowed (instead of just aiming for a 50/50 channel as we did in our simulation) peers must not contradict each other.
+  \item It may be hard to run the protocol while the network is active.
+\end{enumerate}
+For those reasons we assume that this result is just of theoretical interest or best to be implemented by a lighting network service provider who could offer this kind of replenishment protocol as a service to the customers of that provider. 
+
+
+
+
+\section{Discussion and Conclusion}
+
+Our geometric lens makes two shortcomings of today’s two–party, source–routed LN explicit. First, many desired target wealth vectors lie outside the feasible region $W_G$ because sparse topologies have narrow cut intervals and the conservation of liquidity heavily constraints the ILP that defines $W_G$. This inflates the expected infeasible rate $\rho$ and, by $S=\zeta/\rho$, caps the sustainable off-chain payment bandwidth. Second, under linear, asymmetric fees the dynamics inside a wealth fiber tend to deplete channels. This reduces the reliability of otherwise feasible payments. Given the current incentives in the network depletion is an emergent phenomenon even in a circular economy when all payments are net-zero. The existence of infeasible payments and depletion are consequences of the geometry of cuts and cycles under the given current protocol design. They are neither software bugs nor necessarily the consequence of poor node operator behavior. 
+
+The presented theory is constructive as it identifies tunable levers:
+\begin{itemize}
+  \item \textbf{Grow $W_G$ (reduce $\rho$).} Favor multi-party primitives like coin-pools or channel factories that widen cuts in expectation. Improve the inter-pool connectivity and place capital with cut widths in mind.
+  \item \textbf{Raise effective $\zeta$.} Batch settlements via factories or other means like splices. Move recurring flows on-chain in larger units andexplore designs that amortize on-chain bandwidth across many off-chain transfers. Also here multi-party primitives seem desireable.
+  \item \textbf{Tame depletion.} (i) Symmetric fees remove directional imbalances (simple, though likely unpopular) (ii) Convex fees create interior stall points on cycles (effective locally, but they complicate source routing unless channel state is broadcasted (iii) Coordinated replenishment (choose an optimal circulation within a fiber) recenters liquidity without changing wealth.
+\end{itemize}
+
+To isolate first principles, we abstracted from base fees, upfront fees, CLTV deltas, HTLC count/size limits, liquidity ads, and jamming countermeasures. These details matter for engineering targets and constants. These details - while important in practise - do not alter the structural facts that (i) feasibility is governed by cut intervals (hence $W_G$) and (ii) linear asymmetric fees drive cycle-wise boundary optima (hence depletion).
+
+A key open design choice is whether multi-party channels should primarily serve as channel factories (periodically batching updates and effectively increasing $\zeta$), or as persistent payment venues that also enlarge $W_G$ between batches (e.g., cross-pool swaps). The former is operationally simpler and immediately helps $S$ via $\zeta$; the latter promises larger feasible regions and lower $\rho$ but requires careful incentives, privacy, and failure handling. Our results suggest both directions are fruitful. Future research is needed to decide the best mix which likely depends on demand patterns and governance constraints.
+
+The geometric viewpoint turns system evolution into measurable goals: track the infeasible payment rate $\rho$, track depletion, and act on the levers above. In practice, widen cuts with multi-party primitives (channel factories/coin-pools), keep operation near interior fibers with convex pricing or coordinated replenishment, and amortize on-chain costs with batching. It is up to the community to judge how severe these theoretical limits are in practice and which levers to integrate into the protocol. For depletion, some levers seem technically easier (symmetric fees) and others harder (utilization-responsive fees under source routing or off-chain replenishment). By contrast, infeasibility appears to require deeper protocol upgrades: with two-party channels, $W_G$ is likely too small and available on-chain bandwidth insufficient for scale. With targeted support, however, payment channel networks can spend more time inside the feasible region and deliver cheaper, more reliable payments.
+
+The machinery we propose to widen feasibility is necessary precisely because we insist on a trust-minimised, non-custodial system. As shown in Section~\ref{sec:credit}, allowing credit would make many liquidity constraints evaporate at the cost of the very property that motivates this line of work. As Nakamoto noted:
+\begin{displayquote}
+\emph{“The root problem with conventional currency is all the trust that’s required to make it work. The central bank must be trusted not to debase the currency, but the history of fiat currencies is full of breaches of that trust.”}\footnote{Satoshi Nakamoto (2009)\url{https://satoshi.nakamotoinstitute.org/posts/p2pfoundation/1/}} 
+\end{displayquote}
+Our results delineate the engineering frontier within those constraints and show what is possible to be achieved: Channel factories and coin-pools measurably enlarge $W_G$ without reintroducing trusted intermediaries. The remaining task is to scale these levers into deployable, privacy-preserving protocols.
+
+
+
+
+%\section{Conclusion}
+%This work reframes PCNs around two geometric primitives---\emph{quotients} and \emph{cuts}---and derives system-level consequences.
+
+%\paragraph{Feasible wealth as the primary object.}
+%By projecting $\pi:L_G\to W_G$ and modding out strict circulations, feasibility questions become statements about $W_G$ alone. The \emph{cut-interval} characterization makes constraints transparent and yields a back-of-the-envelope throughput law:
+%\[
+%S \;\asymp\; \frac{\zeta}{\rho},
+%\]
+%linking sustainable off-chain success $S$ to on-chain bandwidth $\zeta$ and the expected infeasible rate $\rho$. In particular, any design that reduces $\rho$ (by widening cuts) or raises $\zeta$ (cheaper/parallel settlement) scales off-chain capacity proportionally.
+
+%\paragraph{Why two-party meshes struggle, and how multiparty helps.}
+%Two-party graphs leave many wealth targets outside $W_G$ because cut widths are small in sparse topologies. Replacing edges by $k$-party pools (hyperedges) strictly widens cuts in expectation, for every cut and monotonically in $k$; closed forms give simple design rules (e.g., single-node accessibility grows like $k/n$). This strongly motivates \emph{channel-factory} style architectures. In particular, \emph{Ark-like channel factories} compress internal liquidity without per-payment coordination and can be interconnected via light two-party links or cross-pool swaps—providing a practical route to the theoretical benefits of multiparty channels. Further work should pin down concrete operating envelopes (security assumptions, exit capacity, fee/latency trade-offs) and how factory scheduling interacts with external cuts.
+
+%\paragraph{Depletion is generic; fee shaping is local.}
+%Maximizing fee revenue within a fiber is a linear program whose free directions are cycle pushes; any nonzero cycle imbalance forces boundary optima (directional depletion), with at least the cycle rank of edges depleted and a residual spanning forest. Convex, utilization-responsive fees (``rate cards'') can stall some cycles by creating local interior equalities of cycle marginals, but cannot eliminate global depletion without cross-cycle coordination.
+
+%\paragraph{Replenishment as geometry.}
+%Within a fixed wealth fiber, “best-effort” rebalancing is an \emph{optimal circulation} problem: relax, project, and perform a small integer search in the strict-circulation lattice. This converts bimodal channel marginals into centered ones in simulation, improving short-term reliability. Deployments must balance coordination effort, privacy leakage (wealth disclosure), and timing.
+
+%\paragraph{Outlook.}
+%The quotient-and-cut viewpoint yields crisp levers: (i) widen cuts (multiparty/factories; better inter-pool topology), (ii) raise $\zeta$ (batching/rollups), and (iii) keep fibers near interior via coordinated replenishment. Pure fee tuning helps locally but cannot defeat the geometry of cycles. We view \emph{Ark-class channel factories} as the most promising near-term path to materially larger $W_G$ with manageable operational overhead; the open problems are implementational (factory governance, exit guarantees, and privacy-preserving cross-pool settlement) rather than conceptual.
+
+
+
 
 %==========================================================================
 
@@ -1420,8 +2086,8 @@ This is a strong indicator that multi party channels are useful.\footnote{In par
 
 \section{Acknowledgements}
 This work was funded by Open Sats Inc. and various Patreons. I would like to thank the reviewers of earlier versions. In particular Stefan Richter, Christian Decker, Christian Kuemmerle, Anastasios Sidiropoulos (who pointed out an error in my initial description of the wealth distributions), Elias Roher and bitromortac. Thanks to Rene Treffer for sharing an example with me that indicated how dropping the assumption that liquidity in channels is distributed independently can be used to show how bimodal liquidity distributions emerge.
-Furthermore since I am not a native english speaker I passed the manuscript through chatGPT for copy editing and revised its output. My origninal manuscript is as comments in the latex files.
-
+I am not a native English speaker. The first full draft was copy-edited with the help of ChatGPT. I reviewed and revised all suggested changes, and the original text is preserved as comments in the LaTeX source. In subsequent revisions and extensions I adopted a more vibe-writing approach, so sentence-level attribution of AI-assisted phrasing is no longer practical. Conceptually, while I was working to formalize results on the feasibility region of multi-party channels, the AI—building on my initial ideas suggested the perspective of analyzing expected cut widths, which informed parts of this manuscript.
+%Furthermore since I am not a native english speaker I passed the first version of the manuscript through chatGPT for copy editing and revised its output. My origninal manuscript is as comments in the latex files. For the second iteration and extension of the original script I switched more to a vibe-writing style so it is harder to mark the AI generated parts of this manuscript explicitely. It is noteworthy while I was struggeling to formalize proofs about multiparty channels the AI suggested based on my ideas to study expected cut widths.
 \bibliography{references}
 \bibliographystyle{plain}
 
@@ -1569,39 +2235,6 @@ If $y$ wants to make a payment of $2$ coins to $z$ we take the wealth vector $w=
   Thus the payment of $10$ coins is infeasible. 
 
 
-\section{Open ends}
-  \subsection{Conjecture}
-  Let $\sigma_w\subset \mathbb{Z}^n$ be the solution space for a wealth distribution $w$.
-  Then:
-  \begin{equation}
-    \frac{|\left(\bigcup_{w\in W}\sigma_w\right)\cap S|}{|S|}
-  \end{equation}
-  is the liklihood that a payment is infeasible.
-
-
-  
-\subsection{TODO: Compare method to reality and optimally realiable payment flows}
-We use a data set of some network probes
-However we can estimate the likelihood for a payment to be feasible through statistical sampeling
-
-\subsection{Learn from successfull payments}
-if a payment was successfull we can find a subset of feasible states from where we could have started
-
-\subsection{TODO: Compare with min cut distribution}
-of course one could also compute the min cut distribution for various uniformly distributed wealth vectors (this is certainly more sound than initilizing channels randomly)
-
-\subsection{understand the subset of equivalence classes}
-For a general Network we have:
-\begin{equation}
-  W_G \cong \bigcup_{i=1}^m\left(H_G\cap\{(\lambda_1,\dots,\lambda_m)\in L_G|\lambda_i = 0\}\right)
-  \end{equation}
-
-\subsection{Questions}
-\begin{enumerate}
-\item Assuming all coins must be put into payment channels with a static topology. How should the capacities of the payment channels for a given wealth distribution being chosen? Is the goal that the space of possible wealth distributions is maximized favourable? 
-\item Assume only a limited amount of payment channels can be created (due to the fact that payment channels are achored as multisig transactions in the blockchain which has limited space). What is a desireable topology of channels at blockheight $h$ for a fixed rate of channels per block?
-\item Given that a subset of the existing coins may be put in payment channels. How many coins should be used to create channels?
-\end{enumerate}
 
 \end {document}
 
